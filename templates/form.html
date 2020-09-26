@@ -1,0 +1,12 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+<div class="container mt-3">
+<h3> form is submitted !!</h3>
+{% for s in sucribe%}
+
+<h2 class="lead">your name and email is  {{s[0]}} || {{s[1]}}</h2>
+{% endfor %}
+
+</div>
+{% endblock %}
