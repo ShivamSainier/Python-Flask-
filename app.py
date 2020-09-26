@@ -8,7 +8,8 @@ def main():
 
 @app.route("/about")
 def about():
-    return render_template("about.html")
+    names=['Shivam','Shubham','rohit']
+    return render_template("about.html",names=names)
 
 
 if __name__=="__main__":
