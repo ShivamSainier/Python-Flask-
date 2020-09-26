@@ -36,7 +36,14 @@
 
 
     <div class="container">
-        <h1 class="mt-4">about shivam saini .... </h1>
+      {% for n in names%}
+        {% if n=="Shivam" %}
+
+          <p class=" lead mt-4">{{n}} is Admin</p>
+          {% else %} 
+          <p class=" lead mt-4">{{n}}</p>
+          {% endif %}
+        {% endfor %}
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
