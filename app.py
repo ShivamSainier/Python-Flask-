@@ -18,11 +18,17 @@ def form():
     first=request.form.get('firstname')
     email=request.form.get('email')
     sucribe.append((first,email))
+    if not first or not email:
+        return render_template('fail.html',first=first,email=email)
     return render_template("form.html",sucribe=sucribe)
 
 @app.route("/suscribe")
 def suscribe():
     return render_template('suscribe.html')
+
+@app.route("/suscribers")
+def suscribers():
+    return render_template('suscribers.html',sucribe=sucribe)
 
 if __name__=="__main__":
     app.run(debug=True)
