@@ -19,7 +19,8 @@ def form():
     email=request.form.get('email')
     sucribe.append((first,email))
     if not first or not email:
-        return render_template('fail.html',first=first,email=email)
+        message="ALL Fields are Required"
+        return render_template('suscribe.html',first=first,email=email,message=message)
     return render_template("form.html",sucribe=sucribe)
 
 @app.route("/suscribe")
