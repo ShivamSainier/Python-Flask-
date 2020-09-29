@@ -9,10 +9,10 @@ suscribers=[]
 
 class blogger(db.Model):
     id=db.Column(db.Integer,primary_key=True)
-    Name=db.Column(db.Text,default="Name",unique=False,nullable=False)
-    Title=db.Column(db.Text,default="Title",unique=False,nullable=False)
-    Subtitle=db.Column(db.Text,default="Subtitle",unique=False,nullable=False)
-    Discription=db.Column(db.Text,default="Discription",unique=False,nullable=False)
+    name=db.Column(db.Text,default="Name",unique=False,nullable=False)
+    title=db.Column(db.Text,default="Title",unique=False,nullable=False)
+    subtitle=db.Column(db.Text,default="Subtitle",unique=False,nullable=False)
+    discription=db.Column(db.Text,default="Discription",unique=False,nullable=False)
     Datetime=db.Column(db.DATETIME,default=datetime.utcnow)
 
 @app.route("/")
@@ -31,12 +31,42 @@ def vlogger():
         title=request.form.get('title')
         subtitle=request.form.get('subtitle')
         description=request.form.get('description')
-        entry=blogger(Name=name,Title=title,Subtitle=subtitle,Discription=description)
-        db.session.add(entry)
+        if not name or not title or not subtitle or not description:
+            message="please fill all forms field"
+            return render_template("vlogger.html",message=message,name=name,title=title,subtitle=subtitle,description=description)
+        else:
+            entry=blogger(name=name,title=title,subtitle=subtitle,discription=description)
+            db.session.add(entry)
+            db.session.commit()
+            return redirect("/")
+    else:
+        return render_template("vlogger.html")
+
+@app.route("/delete/<int:id>")
+def delete(id):
+    delete=blogger.query.get_or_404(id)
+    db.session.delete(delete)
+    db.session.commit()
+    return redirect("/") 
+
+
+@app.route("/update/<int:id>",methods=["GET","POST"])
+def update(id):
+    vlogger=blogger.query.get_or_404(id)
+    if request.method=="POST":
+        vlogger.name=request.form.get('name')
+        vlogger.title=request.form.get('title')
+        vlogger.subtitle=request.form.get('subtitle')
+        vlogger.discription=request.form.get('description')
         db.session.commit()
         return redirect("/")
     else:
-        return render_template("vlogger.html")
+        return render_template("update.html",vlogger=vlogger)
+
+
+
+
+
 
 if __name__=="__main__":
     app.run(debug=True)
