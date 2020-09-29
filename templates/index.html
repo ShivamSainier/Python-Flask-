@@ -3,15 +3,20 @@
 {% block content %}
 <h1 class="text-light">home page</h1>
 {% for data in all_data %}
-<div class="card-group">
-<div class="card text-white bg-primary mb-3" style="width: 18rem;">
-    <div class="card-body">
-      <h5 class="card-title">{{data.Title}}</h5>
-      <h6 class="card-subtitle mb-2 text-muted">{{data.Subtitle}}</h6>
-      <p class="card-text">{{data.Discription}}</p>
-      <p class="card-link blockquote-footer text-light">{{data.Name}} at {{data.Datetime}}</a>
+  <div class="card-group">
+  <div class="card text-white bg-primary mb-3" style="width: 18rem;">
+  <div class="card-body">
+  <h5 class="card-title">{{data.title}}</h5>
+  <h6 class="card-subtitle mb-2 text-muted">{{data.subtitle}}</h6>
+  <p class="card-text">{{data.discription}}</p>
+  <p class="card-link blockquote-footer text-light">{{data.name}} at {{data.Datetime}}</p>
+    <a href="/update/{{data.id}}" class="btn btn-sm btn-success">Update</a>
+      <a href="/delete/{{data.id}}" class="btn btn-sm btn-danger">Delete</a>
     </div>
-</div>
-</div>
+    </div>
+    </div>
+    
+
+
 {% endfor %}
 {% endblock %}
