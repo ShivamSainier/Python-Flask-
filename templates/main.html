@@ -2,13 +2,26 @@
 
 
 {% block content %}
+
+
+
+
+
+
+
+
+
 <div class="container">
+    {% with msg=get_flashed_messages() %}
+    {% if msg%}
+        {% for m in msg%}
+            {{m}}
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
     <h1> Home Page!</h1>
     <h1>{{user}}</h1>
     <a href="/login" class="btn btn-outline-primary">Login </a>
     <a href="/logout" class="btn btn-outline-success">Logout </a>
-
-
-
 </div>
 {% endblock %}
