@@ -24,7 +24,11 @@ def user():
         user=session['user']
         return render_template("main.html",user=user)
     else:
-        return "no data"
+        return redirect(url_for('login'))
+@app.route("/logout")
+def logout():
+    session.pop("user",None)
+    return redirect(url_for("main"))
 
 if __name__=="__main__":
     app.run(debug=True)
