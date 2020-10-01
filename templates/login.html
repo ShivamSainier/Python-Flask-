@@ -1,20 +1,23 @@
-{% extends "base.html" %}
-
+{% extends 'base.html' %}
 
 {% block content %}
+<div class="container">
+    <form method="post" action="/login">
+        <legend class="border-bottom mb-4 mt-5 text-success">Join Today</legend>
+        <div class="form-group">
+            {{l.username.label(class="form-control-label")}}
+            {{l.username(class="form-control form-control-lg")}}
+        </div>
+        <div class="form-group">
+            {{l.password.label(class="form-control-label")}}
+            {{l.password(class="form-control form-control-lg")}}
+        </div>
+        <div class="form-group">
+            {{l.submit(class="form-control form-control-lg btn-outline-success")}}
+        </div>
+    </form>
 
-<form method="post" action="/login">
-    <div class="container">
-    <div class="form-row mt-5">
-      <div class="col">
-        <input type="text" class="form-control" placeholder="First name" name="name">
-      </div>
-      <div class="col">
-        <input type="submit" class="btn btn-outline-primary">
-      </div>
-    </div>
-    </div>
-  </form>
 
 
-{% endblock %}
+</div>
+{%  endblock %}
