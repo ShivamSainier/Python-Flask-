@@ -1,4 +1,6 @@
 from flask import Flask,render_template,redirect,request,url_for,session,flash
+from form import signform
+
 
 
 app=Flask(__name__)
@@ -33,5 +35,9 @@ def logout():
     session.pop("user",None)
     return redirect(url_for("main"))
 
+@app.route("/sign")
+def sign():
+    form=signform()
+    return render_template('sign .html',form=form)
 if __name__=="__main__":
     app.run(debug=True)
