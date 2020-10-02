@@ -23,14 +23,14 @@
     <div class="form-group">
         {{sign_up.email.label(class="form-control-label")}}
         {% if sign_up.email.errors %}
-        {{sign_up.email(class='form-control form-control-lg is-invalid')}}
+            {{sign_up.email(class='form-control form-control-lg is-invalid')}}
         <div class="invalid-feedback">
-            {% for error in sign_up.email %}
-            <span>{{error}}</span>
+            {% for error in sign_up.email.errors %}
+                <span>{{error}}</span>
             {% endfor %}
         </div>
         {% else %}
-        {{sign_up.email(class='form-control form-control-lg')}}
+            {{sign_up.email(class='form-control form-control-lg')}}
 
         {% endif %}
     </div>
@@ -57,7 +57,7 @@
             {% endfor %}
         </div>
         {% else %}
-        {{sign_up.confirm_password(class="form-control form-control-lg is-invalid")}}
+        {{sign_up.confirm_password(class="form-control form-control-lg")}}
         {% endif %}
 
     </div>
