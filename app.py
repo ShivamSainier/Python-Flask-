@@ -12,15 +12,13 @@ class user(db.Model):
     Username=db.Column(db.String(20),nullable=False)
     Email=db.Column(db.String(120),nullable=False)
     Password=db.Column(db.String(20),nullable=False)
-    Image=db.Column(db.String(40),nullable=False)
-    posts=db.relationship('posts',backref='author',lazy=True)
+
 
 class posts(db.Model):
     id=db.Column(db.Integer,primary_key=True)
-    Title=db.Column(db.Text,nullable=False)
-    Content=db.Column(db.Text,nullable=False)
-    Date_posted=db.Column(db.DateTime,nullable=False)
-    user_id=db.Column(db.Integer,db.ForeignKey('users.id'),nullable=False)
+    title=db.Column(db.Text,nullable=False)
+    content=db.Column(db.Text,nullable=False)
+    date_posted=db.Column(db.DateTime,nullable=False)
 
 
 @app.route("/")
@@ -28,20 +26,14 @@ def main():
     return render_template("main.html")
 
 
-@app.route("/user")
-def user():
-    if 'user' in session:
-        flash("you just log in Thank you ")
-        user=session['user']
-        return render_template("main.html",user=user)
-    else:
-        return redirect(url_for('login'))
-
 
 @app.route("/resister",methods=["GET","POST"])
 def resister():
     sign_up=resister_form()
     if sign_up.validate_on_submit():
+        userr=user(Username=sign_up.username.data,Email=sign_up.email.data,Password=sign_up.pasword.data)
+        db.session.add(userr)
+        db.session.commit()
     
         flash("You just Resistered!!")
         return redirect('/')
