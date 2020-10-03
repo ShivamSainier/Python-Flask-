@@ -26,13 +26,13 @@ def login():
     l=login_form()
     if l.validate_on_submit():
         use=user.query.filter_by(username=l.username.data).first()
-        if use:
-            login_user(use)
+        pas=user.query.filter_by(password=l.password.data).first()
+        if use and pas:
+            login_user(use,pas)
             flash("You just logged in !!")
             return redirect("/")
         else:
             message="invalid username or password"
             return render_template("login.html",l=l,message=message)
     else:
-        message="invalid username or password"
-        return render_template("login.html",l=l,message=message)
+        return render_template("login.html",l=l)
