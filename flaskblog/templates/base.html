@@ -22,21 +22,21 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item active">
-            <a class="nav-link" href="{{url_for('main')}}">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link text-warning" href="{{url_for('main')}}">Home <span class="sr-only">(current)</span></a>
           </li>
           {% if current_user.is_authenticated %}
           <li class="nav-item">
-              <a class="nav-link" href="/logout">Logout</a>
+              <a class="nav-link text-danger" href="/logout">Logout</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/account">Account</a>
+              <a class="nav-link text-info" href="/account">Account</a>
             </li>
           {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="/resister">Resister</a>
+            <a class="nav-link text-primary" href="/resister">Resister</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/login">Login</a>
+            <a class="nav-link text-success" href="/login">Login</a>
           </li>
           {% endif %}
         </ul>
