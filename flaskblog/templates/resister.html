@@ -36,16 +36,16 @@
         {% endif %}
     </div>
     <div class="form-group">
-        {{sign_up.pasword.label(class="form-control-label")}}
-        {% if sign_up.pasword.errors %}
-        {{sign_up.pasword(class='form-control form-control-lg is-invalid')}}
+        {{sign_up.password.label(class="form-control-label")}}
+        {% if sign_up.password.errors %}
+        {{sign_up.password(class='form-control form-control-lg is-invalid')}}
         <div class="invalid-feedback">
-            {% for error in sign_up.pasword.errors %}
+            {% for error in sign_up.password.errors %}
             <span>{{error}}</span>
             {% endfor %}
         </div>
         {% else %}
-        {{sign_up.pasword(class='form-control form-control-lg')}}
+        {{sign_up.password(class='form-control form-control-lg')}}
         {% endif %}
     </div>
     <div class="form-group">
