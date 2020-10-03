@@ -1,7 +1,8 @@
 from flask import render_template,redirect,request,url_for,session,flash
-from flaskblog.form import resister_form
+from flaskblog.form import resister_form,login_form
 from flaskblog.models import user,posts
 from flaskblog import app,db
+from flask_login import login_user
 
 @app.route("/")
 def main():
@@ -12,7 +13,7 @@ def main():
 def resister():
     sign_up=resister_form()
     if sign_up.validate_on_submit():
-        userr=user(Username=sign_up.username.data,Email=sign_up.email.data,Password=sign_up.pasword.data)
+        userr=user(username=sign_up.username.data,email=sign_up.email.data,password=sign_up.password.data)
         db.session.add(userr)
         db.session.commit()
         flash("You just Resistered!!")
@@ -24,7 +25,14 @@ def resister():
 def login():
     l=login_form()
     if l.validate_on_submit():
-        flash("You just logged in !!")
-        return redirect("/")
+        use=user.query.filter_by(username=l.username.data).first()
+        if use:
+            login_user(use)
+            flash("You just logged in !!")
+            return redirect("/")
+        else:
+            message="invalid username or password"
+            return render_template("login.html",l=l,message=message)
     else:
-        return render_template("login.html",l=l)
+        message="invalid username or password"
+        return render_template("login.html",l=l,message=message)
