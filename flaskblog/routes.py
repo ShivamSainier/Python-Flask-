@@ -33,8 +33,9 @@ def login():
         pas=user.query.filter_by(password=l.password.data).first()
         if use and pas:
             login_user(use,pas)
-            flash("You just logged in !!")
-            return redirect("/")
+            next_page=request.args.get('next') 
+            #flash("You just logged in !!")
+            return redirect(next_page) if next_page else  redirect(url_for('main'))
         else:
             message="invalid username or password"
             return render_template("login.html",l=l,message=message)
