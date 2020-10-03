@@ -5,7 +5,7 @@ from flaskblog.models import user,posts
 
 
 class resister_form(FlaskForm):
-    username=StringField("username",validators=[DataRequired(),Length(min=3,max=6)])
+    username=StringField("username",validators=[DataRequired(),Length(min=2,max=8)])
     password=PasswordField("password",validators=[DataRequired()])
     email=StringField("email",validators=[DataRequired(),Email()])
     confirm_password=PasswordField("confirm_password",validators=[DataRequired(),EqualTo('password')])

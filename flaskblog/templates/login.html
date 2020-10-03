@@ -2,6 +2,8 @@
 
 {% block content %}
 <div class="container">
+    <div class="border border-success-rounded mt-5">
+        <div class="container">
     <form method="post" action="/login">
         {{ l.hidden_tag() }}
         <legend class="border-bottom mb-4 mt-5 text-success">Join Today</legend>
@@ -17,12 +19,14 @@
             {{l.submit(class="form-control form-control-lg btn-outline-success")}}
         </div>
         {% if message  %}
-        <div class="alert alert-danger alert-dismissible mt-5">
+        <div class="alert alert-secondary text-success alert-dismissible mt-5">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <strong>{{message}}</strong> {{m}}
             </div>
         {% endif %}
     </form>
+</div>
+    </div>
 
 
 
