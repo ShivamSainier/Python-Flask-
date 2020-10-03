@@ -2,7 +2,7 @@ from flask import render_template,redirect,request,url_for,session,flash
 from flaskblog.form import resister_form,login_form
 from flaskblog.models import user,posts
 from flaskblog import app,db
-from flask_login import login_user
+from flask_login import login_user,current_user,logout_user
 
 @app.route("/")
 def main():
@@ -11,6 +11,8 @@ def main():
 
 @app.route("/resister",methods=["GET","POST"])
 def resister():
+    if current_user.is_authenticated:
+        return redirect(url_for('main'))
     sign_up=resister_form()
     if sign_up.validate_on_submit():
         userr=user(username=sign_up.username.data,email=sign_up.email.data,password=sign_up.password.data)
@@ -23,6 +25,8 @@ def resister():
 
 @app.route('/login',methods=["GET","POST"])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('main'))
     l=login_form()
     if l.validate_on_submit():
         use=user.query.filter_by(username=l.username.data).first()
@@ -36,3 +40,8 @@ def login():
             return render_template("login.html",l=l,message=message)
     else:
         return render_template("login.html",l=l)
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('main'))
