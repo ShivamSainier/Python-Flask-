@@ -4,6 +4,16 @@
 <div class="container">
     <div class="border border-success-rounded mt-5">
         <div class="container">
+            {% with msg=get_flashed_messages() %}
+            {% if msg%}
+                {% for m in msg%}
+                <div class="container">
+                    <div class="alert alert-success alert-dismissible mt-5">
+                        <strong> {{m}} </strong>
+                        </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
     <form method="post" action="/login">
         {{ l.hidden_tag() }}
         <legend class="border-bottom mb-4 mt-5 text-success">Join Today</legend>
