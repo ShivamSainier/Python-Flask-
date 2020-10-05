@@ -1,12 +1,61 @@
 {% extends 'base.html' %}
 {% block content %}
-
-<div class="media bg-secondary">
-    <img class="mr-3" src="{{ image_file }}" alt="photo not found">
+<div class="content-section border">
+    {% with msg=get_flashed_messages() %}
+{% if msg%}
+    {% for m in msg%}
+    <div class="container">
+        <div class="alert alert-success alert-dismissible mt-5">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Success!</strong> {{m}}
+            </div>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+<div class="media">
+    <img class="rounded-circle account-img" src="{{ image_file }}" alt="photo not found">
     <div class="media-body">
       <h2 class="account-heading">{{current_user.username}}</h2>
-      <p class="text-light"> {{current_user.email}}</p>
+      <p class="text-secondary"> {{current_user.email}}</p>
     </div>
   </div>
+</div>
+<div class="container p-4">
 
+    <form method="post" action="/account">
+        {{ sign_up.hidden_tag() }}
+        <legend class="border-bottom mb-4 mt-4 text-secondary">info !</legend>
+    
+        <div class="form-group">
+            {{sign_up.username.label(class="form-control-label text-primary")}}
+            {% if sign_up.username.errors %}
+                {{sign_up.username(class='form-control form-control-lg is-invalid')}}
+            <div class="invalid-feedback">
+                {% for error in sign_up.username.errors %}
+                    <span>{{error}}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+                {{sign_up.username(class='form-control form-control-lg')}}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{sign_up.email.label(class="form-control-label text-primary")}}
+            {% if sign_up.email.errors %}
+                {{sign_up.email(class='form-control form-control-lg is-invalid')}}
+            <div class="invalid-feedback">
+                {% for error in sign_up.email.errors %}
+                    <span>{{error}}</span>
+                {% endfor %}
+            </div>
+            {% else %}
+                {{sign_up.email(class='form-control form-control-lg')}}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{sign_up.submit(class="form-control form-control-lg btn btn-outline-danger")}}
+        </div>
+    
+    </form>
+    </div>
 {% endblock %}
