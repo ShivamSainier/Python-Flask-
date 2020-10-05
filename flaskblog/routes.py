@@ -1,5 +1,5 @@
 from flask import render_template,redirect,request,url_for,session,flash
-from flaskblog.form import resister_form,login_form
+from flaskblog.form import resister_form,login_form,update_form
 from flaskblog.models import user,posts
 from flaskblog import app,db
 from flask_login import login_user,current_user,logout_user,login_required
@@ -48,9 +48,19 @@ def logout():
     return redirect(url_for('main'))
 
 
-@app.route("/account")
+@app.route("/account",methods=['GET','POST'])
 @login_required
 def account():
+    sign_up=update_form()
     image_file=url_for('static',filename=current_user.image_file)
-    return render_template('account.html',image_file=image_file)
-
+    if sign_up.validate_on_submit():
+        current_user.username=sign_up.username.data
+        current_user.email=sign_up.email.data
+        db.session.commit()
+        flash("Your account has been updated !")
+        return redirect(url_for('account'))
+    elif request.method=='GET':
+        sign_up.username.data=current_user.username
+        sign_up.email.data=current_user.email
+    image_file=url_for('static',filename=current_user.image_file)
+    return render_template('account.html',image_file=image_file,sign_up=sign_up)
