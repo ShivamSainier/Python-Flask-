@@ -1,5 +1,5 @@
 from flask import render_template,redirect,request,url_for,session,flash
-from flaskblog.form import resister_form,login_form,update_form
+from flaskblog.form import resister_form,login_form,update_form,post_form
 from flaskblog.models import user,posts
 from flaskblog import app,db
 from flask_login import login_user,current_user,logout_user,login_required
@@ -9,7 +9,8 @@ from PIL import Image
 
 @app.route("/")
 def main():
-    return render_template("main.html")
+    post=posts.query.all()
+    return render_template("main.html",post=post)
 
 
 
@@ -18,7 +19,7 @@ def save_picture(form_picture):
     _,f_ext=os.path.splitext(form_picture.filename)
     picture_fn=random_hex+f_ext
     picture_path=os.path.join(app.root_path,'static',picture_fn)
-    output_size=(150,150)
+    output_size=(125,125)
     i=Image.open(form_picture)
     i.thumbnail(output_size)
     i.save(picture_fn)
@@ -84,3 +85,14 @@ def account():
         sign_up.email.data=current_user.email
     image_file=url_for('static',filename=current_user.image_file)
     return render_template('account.html',image_file=image_file,sign_up=sign_up)
+
+@app.route('/New Post',methods=['GET','POST'])
+def new_post():
+    post=post_form()
+    if post.validate_on_submit():
+        flash("new post created")
+        postss=posts(title=post.title.data,content=post.content.data,author=current_user)
+        db.session.add(postss)
+        db.session.commit()
+        return redirect(url_for('main'))
+    return render_template('New Post.html',post=post)
