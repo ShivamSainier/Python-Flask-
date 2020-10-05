@@ -1,4 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1> {{current_user.username}}</h1>
+
+<div class="media bg-secondary">
+    <img class="mr-3" src="{{ image_file }}" alt="photo not found">
+    <div class="media-body">
+      <h2 class="account-heading">{{current_user.username}}</h2>
+      <p class="text-light"> {{current_user.email}}</p>
+    </div>
+  </div>
+
 {% endblock %}
