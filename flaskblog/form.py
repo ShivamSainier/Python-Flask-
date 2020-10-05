@@ -24,3 +24,16 @@ class login_form(FlaskForm):
     username=StringField("username",validators=[DataRequired(),Length(min=3,max=6)])
     password=StringField("password",validators=[DataRequired()])
     submit=SubmitField("log in")
+
+
+class update_form(FlaskForm):
+    username=StringField("username",validators=[DataRequired(),Length(min=3,max=6)])
+    email=StringField("email",validators=[DataRequired(),Email()])
+    submit=SubmitField("log in")
+
+    def validation_username(self,username):
+        if username.data !=current_user.username:
+            raise ValidationError("it is already exist try something new")
+    def validation_email(self,email):
+        if email.data!=current_user.email:
+            raise ValidationError("it is already exist try something new")
