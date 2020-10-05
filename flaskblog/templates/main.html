@@ -23,14 +23,15 @@
 {% endwith %}
 
 {% for p in post %}
-<article class="media content-section mt-2">
+<article class="media content-section mt-2 border">
+    <img class="rounded article-img p-1" src="{{url_for('static',filename=p.author.image_file)}}">
 <div class="media-body">
 <div class="article-metadata">
-<a class="mr-2" href="#">{{p.author.username}}</a>
+<a class="mr-2" href="{{url_for('userposts',id=p.id)}}">{{p.author.username}}</a>
 <small class="text-muted">
-    {{p.date_posted}}
+    {{p.date_posted.strftime('%Y-%m-%d')}}
 </small>
-<h2><a class="article-title" href="#">{{p.title}}</a></h2>
+<h2><a class="article-title" href="{{url_for('userposts',id=p.id)}}">{{p.title}}</a></h2>
 <p class="article-content">{{p.content}}</p>
 </div>
 </div>
