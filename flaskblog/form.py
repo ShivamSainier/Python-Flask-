@@ -1,4 +1,4 @@
-from wtforms import StringField , PasswordField,SubmitField
+from wtforms import StringField , PasswordField,SubmitField,TextAreaField
 from wtforms.validators import DataRequired,Email,Length,EqualTo,ValidationError
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField,FileAllowed 
@@ -30,8 +30,8 @@ class login_form(FlaskForm):
 class update_form(FlaskForm):
     username=StringField("username",validators=[DataRequired(),Length(min=3,max=6)])
     email=StringField("email",validators=[DataRequired(),Email()])
-    picture=FileField('update profile picture',validators=[FileAllowed(['jpg','png','gif'])])
-    submit=SubmitField("log in")
+    picture=FileField('update profile picture',validators=[FileAllowed(['jpg','png','gif','MPEG','HEIC'])])
+    submit=SubmitField("UPDATE")
 
     def validation_username(self,username):
         if username.data !=current_user.username:
@@ -39,3 +39,8 @@ class update_form(FlaskForm):
     def validation_email(self,email):
         if email.data!=current_user.email:
             raise ValidationError("it is already exist try something new")
+
+class post_form(FlaskForm):
+    title=StringField('title',validators=[DataRequired()])
+    content=TextAreaField('content',validators=[DataRequired()])
+    submit=SubmitField('Post')
