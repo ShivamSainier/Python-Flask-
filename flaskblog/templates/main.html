@@ -22,6 +22,20 @@
 {% endif %}
 {% endwith %}
 
+{% for p in post %}
+<article class="media content-section mt-2">
+<div class="media-body">
+<div class="article-metadata">
+<a class="mr-2" href="#">{{p.author.username}}</a>
+<small class="text-muted">
+    {{p.date_posted}}
+</small>
+<h2><a class="article-title" href="#">{{p.title}}</a></h2>
+<p class="article-content">{{p.content}}</p>
+</div>
+</div>
+</article>
+{% endfor %}
 </div>
 </div>
 {% endblock %}
