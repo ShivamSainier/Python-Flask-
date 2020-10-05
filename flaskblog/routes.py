@@ -3,10 +3,22 @@ from flaskblog.form import resister_form,login_form,update_form
 from flaskblog.models import user,posts
 from flaskblog import app,db
 from flask_login import login_user,current_user,logout_user,login_required
+import secrets
+import os
 
 @app.route("/")
 def main():
     return render_template("main.html")
+
+
+
+def save_picture(form_picture):
+    random_hex=secrets.token_hex(8)
+    _,f_ext=os.path.splitext(form_picture.filename)
+    picture_fn=random_hex+f_ext
+    picture_path=os.path.join(app.root_path,'static',picture_fn)
+    form_picture.save(picture_path)
+    return picture_fn
 
 
 @app.route("/resister",methods=["GET","POST"])
@@ -54,6 +66,9 @@ def account():
     sign_up=update_form()
     image_file=url_for('static',filename=current_user.image_file)
     if sign_up.validate_on_submit():
+        if sign_up.picture.data:
+            picture_fn=save_picture(sign_up.picture.data)
+            current_user.image_file=picture_fn
         current_user.username=sign_up.username.data
         current_user.email=sign_up.email.data
         db.session.commit()
