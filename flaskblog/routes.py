@@ -96,3 +96,8 @@ def new_post():
         db.session.commit()
         return redirect(url_for('main'))
     return render_template('New Post.html',post=post)
+
+@app.route('/userposts/<int:id>')
+def userposts(id):
+    post=posts.query.get_or_404(id)
+    return render_template('user_posts.html',post=post)
