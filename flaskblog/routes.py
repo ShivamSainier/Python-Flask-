@@ -5,9 +5,11 @@ from flaskblog import app,db
 from flask_login import login_user,current_user,logout_user,login_required
 import secrets
 import os
+from sqlalchemy.exc import IntegrityError
 from PIL import Image
 
 @app.route("/")
+@login_required
 def main():
     page=request.args.get('page',1,type=int)
     post=posts.query.order_by(posts.date_posted.desc()).paginate(page=page,per_page=5)
@@ -20,7 +22,7 @@ def save_picture(form_picture):
     _,f_ext=os.path.splitext(form_picture.filename)
     picture_fn=random_hex+f_ext
     picture_path=os.path.join(app.root_path,'static',picture_fn)
-    output_size=(125,125)
+    output_size=(120,120)
     i=Image.open(form_picture)
     i.thumbnail(output_size)
     i.save(picture_fn)
@@ -36,7 +38,13 @@ def resister():
     if sign_up.validate_on_submit():
         userr=user(username=sign_up.username.data,email=sign_up.email.data,password=sign_up.password.data)
         db.session.add(userr)
-        db.session.commit()
+        try:
+            db.session.add(userr)
+            db.session.commit()
+        except IntegrityError:
+            flash('Username or email already taken please choose different one !')
+            return render_template('resister.html',sign_up=sign_up)
+
         flash("You just Resistered!!")
         return redirect('/')
     return render_template('resister.html',sign_up=sign_up)
