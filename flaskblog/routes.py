@@ -1,4 +1,4 @@
-from flask import render_template,redirect,request,url_for,session,flash
+from flask import render_template,redirect,request,url_for,session,flash,abort
 from flaskblog.form import resister_form,login_form,update_form,post_form
 from flaskblog.models import user,posts
 from flaskblog import app,db
@@ -86,7 +86,7 @@ def account():
     image_file=url_for('static',filename=current_user.image_file)
     return render_template('account.html',image_file=image_file,sign_up=sign_up)
 
-@app.route('/New Post',methods=['GET','POST'])
+@app.route('/New_Post',methods=['GET','POST'])
 def new_post():
     post=post_form()
     if post.validate_on_submit():
@@ -95,9 +95,27 @@ def new_post():
         db.session.add(postss)
         db.session.commit()
         return redirect(url_for('main'))
-    return render_template('New Post.html',post=post)
+    return render_template('New_Post.html',post=post,legend="new post")
 
 @app.route('/userposts/<int:id>')
 def userposts(id):
     post=posts.query.get_or_404(id)
     return render_template('user_posts.html',post=post)
+
+@app.route("/userposts/<int:id>/update",methods=['GET','POST'])
+@login_required
+def update_post(id):
+    p=posts.query.get_or_404(id)
+    if p.author!=current_user:
+        abort(403)
+    post=post_form()
+    if post.validate_on_submit():
+        p.title=post.title.data
+        p.content=post.content.data
+        db.session.commit()
+        flash("Update Successfully")
+        return redirect(url_for('main',id=p.id))
+    elif request.method=="GET":
+        post.title.data=p.title
+        post.content.data=p.content
+        return render_template('New_Post.html',post=post,legend="update post")
