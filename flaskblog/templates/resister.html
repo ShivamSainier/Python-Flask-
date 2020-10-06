@@ -5,6 +5,16 @@
 <div class="container mt-5">
 <div class="border">
     <div class="container p-4">
+        {% with msg=get_flashed_messages() %}
+        {% if msg%}
+            {% for m in msg%}
+            <div class="container">
+                <div class="alert alert-primary alert-dismissible p-2">
+                    <strong> {{m}} </strong>
+                    </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
 <form method="post" action="/resister">
     {{ sign_up.hidden_tag() }}
     <legend class="border-bottom mb-4 mt-4 text-secondary">Join Today</legend>

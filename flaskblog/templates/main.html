@@ -12,7 +12,7 @@
         {% endfor %}
     {% endif %}
     {% endwith %}
-    <h1 class="text-primary"> welcome to Blogpost!</h1>
+    <h1 class="text-primary p-5 "> welcome to Blogpost!</h1>
 {% with message=get_flashed_messages %}
 {% if message %}
 {% for msg in messgae%}
@@ -23,14 +23,15 @@
 {% endwith %}
 
 {% for p in post.items %}
-<article class="media content-section mt-2 border">
-    <img class="rounded article-img p-1" src="{{url_for('static',filename=p.author.image_file)}}">
+<article class="media content-section mt-2 border border-white shadow-lg p-2 mb-3 bg-light rounded ">
+    <img class="rounded-circle border border-white p-1" src="{{url_for('static',filename=p.author.image_file)}}">
 <div class="media-body">
 <div class="article-metadata">
-<a class="mr-2" href="{{url_for('userposts',id=p.id)}}">{{p.author.username}}</a>
+<a class="mr-2 p-2 text-muted" href="{{url_for('userposts',id=p.id)}}">{{p.author.username}}</a>
 <small class="text-muted">
     {{p.date_posted.strftime('%Y-%m-%d')}}
 </small>
+<hr>
 <h3><a class="article-title" href="{{url_for('userposts',id=p.id)}}">{{p.title}}</a></h3>
 <p class="article-content">{{p.content}}</p>
 </div>
