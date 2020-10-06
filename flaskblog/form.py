@@ -6,14 +6,15 @@ from flaskblog.models import user,posts
 
 
 class resister_form(FlaskForm):
-    username=StringField("username",validators=[DataRequired(),Length(min=2,max=8)])
+    username=StringField("username",validators=[DataRequired(),Length(min=2,max=12)])
     password=PasswordField("password",validators=[DataRequired()])
     email=StringField("email",validators=[DataRequired(),Email()])
     confirm_password=PasswordField("confirm_password",validators=[DataRequired(),EqualTo('password')])
     submit=SubmitField('submit')
+    
     def validation_username(self,username):
-        userr=user.query.filter_by(username=username.data).first()
-        if userr:
+        user=user.query.filter_by(username=username.data).first()
+        if user:
             raise ValidationError("it is already exist try something new")
     def validation_email(self,email):
         userr=user.query.filter_by(email=email.data).first()
@@ -22,13 +23,13 @@ class resister_form(FlaskForm):
 
 
 class login_form(FlaskForm):
-    username=StringField("username",validators=[DataRequired(),Length(min=3,max=6)])
+    username=StringField("username",validators=[DataRequired(),Length(min=3,max=12)])
     password=StringField("password",validators=[DataRequired()])
     submit=SubmitField("log in")
 
 
 class update_form(FlaskForm):
-    username=StringField("username",validators=[DataRequired(),Length(min=3,max=6)])
+    username=StringField("username",validators=[DataRequired(),Length(min=3,max=13)])
     email=StringField("email",validators=[DataRequired(),Email()])
     picture=FileField('update profile picture',validators=[FileAllowed(['jpg','png','gif','MPEG','HEIC'])])
     submit=SubmitField("UPDATE")
