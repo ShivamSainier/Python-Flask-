@@ -10,7 +10,7 @@ from PIL import Image
 @app.route("/")
 def main():
     page=request.args.get('page',1,type=int)
-    post=posts.query.paginate(page=page,per_page=5)
+    post=posts.query.order_by(posts.date_posted.desc()).paginate(page=page,per_page=5)
     return render_template("main.html",post=post)
 
 
