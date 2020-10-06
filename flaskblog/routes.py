@@ -119,3 +119,14 @@ def update_post(id):
         post.title.data=p.title
         post.content.data=p.content
         return render_template('New_Post.html',post=post,legend="update post")
+
+@app.route('/userposts/<int:id>/delete',methods=["GET","POST"])
+@login_required
+def delete_post(id):
+    post=posts.query.get_or_404(id)
+    if post.author!=current_user:
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    flash("Delete Successfully")
+    return redirect(url_for('main'))
